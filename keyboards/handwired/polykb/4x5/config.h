@@ -23,18 +23,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define DIODE_DIRECTION ROW2COL
 
-#define LAYOUT(\
-    k19, k18, k17, k16,\
-    k15, k14, k13, k12,\
-    k11, k10, k09, k08,\
-    k07, k06, k05, k04,\
-    k03, k02, k01, k00 \
+ #define LAYOUT(\
+  K00, K01, K02, \
+  K03, K04, K05, \
+  K06, K07, K08 \
   ) { \
-    { k00, k01 , k02, k03 }, \
-    { k04, k05 , k06, k07 }, \
-    { k08, k09 , k10, k11 }, \
-    { k12, k13 , k14, k15 }, \
-    { k16, k17 , k18, k19 }, \
+{ K00, K01, K02, }, \
+{ K03, K04, K05, }, \
+{ K06, K07, K08, } \
 }
 
 #define LAYOUT_TO_INDEX(row, col) ((row)*MATRIX_COLS+(col))
@@ -48,3 +44,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGB_DISABLE_TIMEOUT 62000
 
 #define NUM_SHIFT_REGISTERS 5
+#define RGB_MATRIX_LED_COUNT 1

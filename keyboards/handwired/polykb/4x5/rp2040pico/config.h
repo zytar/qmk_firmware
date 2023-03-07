@@ -20,20 +20,14 @@
 
 #define RP2040
 
-#define MATRIX_COL_PINS \
-    { GP10, GP11, GP12, GP13 }
-#define MATRIX_ROW_PINS \
-    { GP18, GP19, GP20, GP21, GP22 }
-
-#define ENCODERS_SWITCH GP16
-#define ENCODERS_PAD_A { GP14 }
-#define ENCODERS_PAD_B { GP15 }
+#define MATRIX_ROW_PINS { GP1, GP2, GP4 }
+#define MATRIX_COL_PINS { GP10, GP11, GP13 }
 
 #define I2C_DRIVER I2CD1
 #define I2C1_SCL_PIN GP0
 #define I2C1_SDA_PIN GP1
-#define I2C1_SCL_PAL_MODE 4
-#define I2C1_SDA_PAL_MODE 4
+//#define I2C1_SCL_PAL_MODE 4
+//#define I2C1_SDA_PAL_MODE 4
 #define I2C1_OPMODE OPMODE_I2C
 #define I2C1_CLOCK_SPEED 100000
 #define I2C1_DUTY_CYCLE STD_DUTY_CYCLE
@@ -42,9 +36,7 @@
 
 #define RGB_DI_PIN GP2
 
-#define WS2812_TRST_US 300
-
-/* From the WS2812B-Mini V3 Docs
+/* From the WS2812B-Mini V3 Docs: https://datasheet.lcsc.com/szlcsc/2005251033_Worldsemi-WS2812B-Mini_C527089.pdf
 T0H 0 220ns~380ns
 T1H 1 580ns~1µs
 T0L 0 580ns~1µs
@@ -53,11 +45,14 @@ TRES  > 280µs
 */
 
 //#define WS2812_TIMING	1250
-#define WS2812_T0H	380
-#define WS2812_T0L	1000
-#define WS2812_T1H	1000
-#define WS2812_T1L	580
+//#define WS2812_T0H	320
+//#define WS2812_T0L	700
+//#define WS2812_T1H	700
+//#define WS2812_T1L	700
+//#define WS2812_TRST_US 300
+//WS2812_T0L < (50 + WS2812_T1L)?
 
+#define NOP_FUDGE 0.4
 /*
 #define WS2812_PWM_DRIVER PWMD3  // default: PWMD2
 #define WS2812_PWM_CHANNEL 2  // default: 2
@@ -72,19 +67,24 @@ TRES  > 280µs
 // SPI interface to write to the selected display
 
 #define SPI_DRIVER SPID0
-#define SPI_SS_PIN GP5
+#define SPI_SS_PIN GP17
 #define SPI_DC_PIN GP8
-#define SPI_RST_PIN GP9
+#define HW_RST_PIN GP9
 #define SPI_SCK_PIN GP6
-#define SPI_SCK_PAL_MODE 5
+//#define SPI_SCK_PAL_MODE 5
 #define SPI_MOSI_PIN GP7
-#define SPI_MOSI_PAL_MODE 5
-#define SPI_MISO_PIN GP4
-#define SPI_DIVISOR (CPU_CLOCK / 20000000)
+//#define SPI_MOSI_PAL_MODE 5
+#define SPI_MISO_PIN GP4 //can be used as uart tx as well?
+
+//This number can be calculated by dividing the MCU’s clock speed
+//by the desired SPI clock speed. For example, an MCU running at 8 MHz
+//wanting to talk to an SPI device at 4 MHz would set the divisor to 2
+#define SPI_DIVISOR (CPU_CLOCK / 16000000) //rp1040 runs at 133Mhz, SPI at 16Mhz (for new Board)
+//#define SPI_DIVISOR (CPU_CLOCK / 5000000) //rp1040 runs at 133Mhz, SPI at 16Mhz
 //#define SPI_MISO_PAL_MODE 5
 
 // Shift register to select the display
-#define SR_NMR_PIN NO_PIN //NO_PIN if possible
+//#define SR_NMR_PIN //NO_PIN if possible
 #define SR_CLK_PIN GP27
 #define SR_DATA_PIN GP26
 #define SR_LATCH_PIN GP28
@@ -97,3 +97,10 @@ TRES  > 280µs
 #define RP2040_BOOTLOADER_DOUBLE_TAP_RESET
 //#define RP2040_BOOTLOADER_DOUBLE_TAP_RESET_LED GP17
 #define RP2040_BOOTLOADER_DOUBLE_TAP_RESET_TIMEOUT 1000U
+
+/*
+#define ENCODERS_PAD_A { 0 }
+#define ENCODERS_PAD_B { 1 }
+#define ENCODER_RESOLUTION 1
+*/
+//#define CUSTOM_PROCESS_RECORD_USER
